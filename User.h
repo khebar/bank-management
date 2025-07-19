@@ -6,8 +6,7 @@ private:
     string name;
     string email;
     string password;
-public:
-    protected:
+protected:
     string firstName;
     string lastName;
     string nationalCode;
