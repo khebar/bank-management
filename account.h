@@ -14,6 +14,8 @@ protected:
     string secondPin;
     string dynamicPin;
     bool hasDynamicPin;
+    double dailyTransferTotal;
+    string lastTransferDate;
 
 public:
     Account(const std::string& cardNum, const std::string& accNum, 
@@ -34,4 +36,8 @@ public:
     bool changeSecondPin(const string& oldPin, const string& newPin);
     string generateDynamicPin();
     bool validateDynamicPin(const string& pin);
+    bool checkTransferLimits(double amount) const;
+    double claculateTransferFee(double amount) const;
+    void resetDailyLimits();
+    
 };
