@@ -28,4 +28,8 @@ public:
     string getCvv2() const;
     string getExpirationDate() const;
     double getBalance() const;
+    bool withdraw(double amount);
+    bool deposit(double amount);
+    bool changeFirstPin(const string& oldPin, const string& newPin);
+    bool changeSecondPin(const string& oldPin, const string& newPin);
 };
