@@ -10,6 +10,35 @@ public:
     T get(int index) const;
     int getSize() const;
     bool isEmpty() const;
+    class iterator {
+    private:
+        Node<T>* current;
+    public:
+        Iterator(Node<T>* start) : current(start) {}
+        
+        T& operator*() const {
+            return current->data;
+        }
+        
+        Iterator& operator++() {
+            if (current)
+                current = current->next;
+            return *this;
+        }
+        
+        bool operator!=(const Iterator& other) const {
+            return current != other.current;
+        }
+    };
+    
+    Iterator begin() {
+        return Iterator(head);
+    }
+    
+    Iterator end() {
+        return Iterator(nullptr);
+    }
+
 };
 
 template <typename T>
