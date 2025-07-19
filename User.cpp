@@ -7,3 +7,18 @@ User::User(const std::string& first, const std::string& last,
     : firstName(first), lastName(last), nationalCode(national),
       age(userAge), username(user), password(pass) {
 }
+string User::getFirstName() const {
+    return firstName;
+}
+string User::getLastName() const {
+    return lastName;
+}
+string User::getNationalCode() const {
+    return nationalCode;
+}
+int User::getAge() const {
+    return age;
+}
+string User::getUsername() const {
+    return username;
+}
