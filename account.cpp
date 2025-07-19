@@ -45,3 +45,30 @@ string Account::getExpirationDate() const {
 double Account::getBalance() const {
     return balance;
 }
+void Account::deposit(double amount) {
+    if (amount > 0) {
+        balance += amount;
+    }
+}
+bool Account::changeFirstPin(const string& oldPin, const string& newPin){
+    if (firstPin == oldPin && newPin.length() == 4) {
+        firstPin = newPin;
+        return true;
+    }
+    return false;
+}
+
+bool Account::changeSecondPin(const string& oldPin, const string& newPin){
+    if (secondPin == oldPin && newPin.length() == 5) {
+        secondPin = newPin;
+        return true;
+    }
+    return false;
+}
+bool Account::withdraw(double amount) {
+    if (amount > 0 && amount <= balance) {
+        balance -= amount;
+        return true;
+    }
+    return false;
+}
