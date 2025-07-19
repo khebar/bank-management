@@ -22,3 +22,13 @@ int User::getAge() const {
 string User::getUsername() const {
     return username;
 }
+bool User::verifyPassword(const string& pass) const {
+    return password == pass;
+}
+bool User::changePassword(const string& oldPass, const string& newPass) {
+    if (verifyPassword(oldPass)) {
+        password = newPass;
+        return true;
+    }
+    return false;
+}
