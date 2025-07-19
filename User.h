@@ -22,5 +22,7 @@ public:
     string getNationalCode() const;
     int getAge() const;
     string getUsername() const;
+    bool verifyPassword(const string& password) const;
+    bool changePassword(const string& oldPass, const string& newPass);
     
 };
