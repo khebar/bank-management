@@ -72,3 +72,19 @@ bool Account::withdraw(double amount) {
     }
     return false;
 }
+string Account::generateDynamicPin(){
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dist(100000, 999999);
+    dynamicPin = to_string(dist(gen));
+    hasDynamicPin = true;
+    return dynamicPin;
+}
+bool Account::verifyDynamicPin(const string& pin) {
+    if (hasDynamicPin && pin == dynamicPin)
+    {
+        hasDynamicPin = false; // Reset after use
+        return true;
+    }
+    return false;
+}
