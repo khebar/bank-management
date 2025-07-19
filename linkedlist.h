@@ -7,6 +7,9 @@ public:
     T data;
     Node* next;
     Node(T value):data(value),next(nullptr) {}
+    T get(int index) const;
+    int getSize() const;
+    bool isEmpty() const;
 };
 
 template <typename T>
@@ -72,4 +75,27 @@ bool LinkedList<T>::remove(int index) {
     delete toDelete;
     size--;
     return true;
+}
+
+template <typename T>
+T LinkedList<T>::get(int index) const {
+    if (index < 0 || index >= size) {
+        throw std::out_of_range("out of range");
+    }
+    
+    Node<T>* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current->data;
+}
+
+template <typename T>
+int LinkedList<T>::getSize() const {
+    return size;
+}
+
+template <typename T>
+bool LinkedList<T>::isEmpty() const {
+    return size == 0;
 }
