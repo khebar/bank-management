@@ -19,7 +19,13 @@ public:
     Account(const std::string& cardNum, const std::string& accNum, 
             const std::string& ibanNum, double initialBalance);
     virtual ~Account() = default;
-    
-    virtual std::string getAccountType() const = 0;
+
+    virtual string getAccountType() const = 0;
     virtual double getInterestRate() const = 0;
+    string getCardNumber() const;
+    string getAccountNumber() const;
+    string getIban() const;
+    string getCvv2() const;
+    string getExpirationDate() const;
+    double getBalance() const;
 };
