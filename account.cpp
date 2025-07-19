@@ -27,3 +27,21 @@ Account::Account(const std::string& cardNum, const std::string& accNum,
     firstPin = "1234";
     secondPin = "12345";
 }
+string Account::getCardNumber() const {
+    return cardNumber;
+}
+string Account::getAccountNumber() const {
+    return accountNumber;
+}
+string Account::getIban() const {
+    return iban;
+}
+string Account::getCvv2() const {
+    return cvv2;
+}
+string Account::getExpirationDate() const {
+    return expirationDate;
+}
+double Account::getBalance() const {
+    return balance;
+}
