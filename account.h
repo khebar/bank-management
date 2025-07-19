@@ -32,4 +32,6 @@ public:
     bool deposit(double amount);
     bool changeFirstPin(const string& oldPin, const string& newPin);
     bool changeSecondPin(const string& oldPin, const string& newPin);
+    string generateDynamicPin();
+    bool validateDynamicPin(const string& pin);
 };
