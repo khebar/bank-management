@@ -4,15 +4,15 @@ using namespace std;
 
 class Account{
 protected:
-    std::string cardNumber;
-    std::string accountNumber;
-    std::string iban;
-    std::string cvv2;
-    std::string expirationDate;
+    string cardNumber;
+    string accountNumber;
+    string iban;
+    string cvv2;
+    string expirationDate;
     double balance;
-    std::string firstPin;
-    std::string secondPin;
-    std::string dynamicPin;
+    string firstPin;
+    string secondPin;
+    string dynamicPin;
     bool hasDynamicPin;
 
 public:
