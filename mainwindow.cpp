@@ -482,4 +482,55 @@ void MainWindow::on_customerGenerateDynamicPinButton_clicked()
         QMessageBox::warning(this, "خطا", "خطا در تولید رمز دوم پویا.");
     }
 }
+void MainWindow::on_customerTransferButton_clicked()
+{
+    Customer* customer = dynamic_cast<Customer*>(bankingSystem->getCurrentUser());
+    if (!customer) return;
+    
+    QStringList cardNumbers;
+    const LinkedList<Account*>& accounts = customer->getAccounts();
+    
+    for (int i = 0; i < accounts.getSize(); i++) {
+        Account* account = accounts.get(i);
+        cardNumbers << QString("%1 (%2) - موجودی: %3")
+                      .arg(QString::fromStdString(account->getCardNumber()))
+                      .arg(QString::fromStdString(account->getAccountType()))
+                      .arg(account->getBalance());
+    }
+    
+    bool ok;
+    QString selectedCard = QInputDialog::getItem(this, "انتقال وجه", 
+                                               "کارت مبدأ:", cardNumbers, 0, false, &ok);
+    if (!ok || selectedCard.isEmpty()) return;
+    
+    QString sourceCardNumber = selectedCard.split(" ").first();
+    
+    QString destCardNumber = QInputDialog::getText(this, "انتقال وجه", 
+                                                "شماره کارت مقصد:", QLineEdit::Normal, "", &ok);
+    if (!ok || destCardNumber.isEmpty()) return;
+    
+    double amount = QInputDialog::getDouble(this, "انتقال وجه", 
+                                          "مبلغ (تومان):", 0, 1, 10000000, 0, &ok);
+    if (!ok || amount <= 0) return;
+    
+    QString pinPrompt;
+    if (amount <= 100000) {
+        pinPrompt = "رمز دوم ثابت:";
+    } else {
+        pinPrompt = "رمز دوم پویا:";
+    }
+    
+    QString pin = QInputDialog::getText(this, "انتقال وجه", 
+                                      pinPrompt, QLineEdit::Password, "", &ok);
+    if (!ok || pin.isEmpty()) return;
+    
+    if (bankingSystem->transferFunds(sourceCardNumber.toStdString(), destCardNumber.toStdString(), 
+                                   amount, pin.toStdString())) {
+        QMessageBox::information(this, "موفق", 
+                              QString("انتقال %1 تومان با موفقیت انجام شد.")
+                                .arg(amount));
+    } else {
+        QMessageBox::warning(this, "خطا", "خطا در انتقال وجه. لطفاً مجدداً بررسی کنید.");
+    }
+}
 }
