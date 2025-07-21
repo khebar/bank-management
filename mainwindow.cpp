@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -99,4 +100,65 @@ void MainWindow::on_customerLogoutButton_clicked()
 {
     bankingSystem->logout();
     switchToLoginPage();
+}
+void MainWindow::on_adminCreateCustomerButton_clicked()
+{
+    QString firstName = QInputDialog::getText(this, "ایجاد مشتری", "نام:");
+    if (firstName.isEmpty()) return;
+    
+    QString lastName = QInputDialog::getText(this, "ایجاد مشتری", "نام خانوادگی:");
+    if (lastName.isEmpty()) return;
+    
+    QString nationalCode = QInputDialog::getText(this, "ایجاد مشتری", "کد ملی:");
+    if (nationalCode.isEmpty()) return;
+    
+    bool ok;
+    int age = QInputDialog::getInt(this, "ایجاد مشتری", "سن:", 18, 18, 120, 1, &ok);
+    if (!ok) return;
+    
+    QString username = QInputDialog::getText(this, "ایجاد مشتری", "نام کاربری:");
+    if (username.isEmpty()) return;
+    
+    QString password = QInputDialog::getText(this, "ایجاد مشتری", "رمز عبور:", QLineEdit::Password);
+    if (password.isEmpty()) return;
+    
+    if (bankingSystem->createCustomer(firstName.toStdString(), lastName.toStdString(),
+                                    nationalCode.toStdString(), age,
+                                    username.toStdString(), password.toStdString())) {
+        QMessageBox::information(this, "موفق", "مشتری با موفقیت ایجاد شد.");
+        refreshCustomerList();
+    } else {
+        QMessageBox::warning(this, "خطا", "خطا در ایجاد مشتری. نام کاربری یا کد ملی تکراری است.");
+    }
+}
+
+void MainWindow::on_adminCreateAdminButton_clicked()
+{
+    QString firstName = QInputDialog::getText(this, "ایجاد ادمین", "نام:");
+    if (firstName.isEmpty()) return;
+    
+    QString lastName = QInputDialog::getText(this, "ایجاد ادمین", "نام خانوادگی:");
+    if (lastName.isEmpty()) return;
+    
+    QString nationalCode = QInputDialog::getText(this, "ایجاد ادمین", "کد ملی:");
+    if (nationalCode.isEmpty()) return;
+    
+    bool ok;
+    int age = QInputDialog::getInt(this, "ایجاد ادمین", "سن:", 18, 18, 120, 1, &ok);
+    if (!ok) return;
+    
+    QString username = QInputDialog::getText(this, "ایجاد ادمین", "نام کاربری:");
+    if (username.isEmpty()) return;
+    
+    QString password = QInputDialog::getText(this, "ایجاد ادمین", "رمز عبور:", QLineEdit::Password);
+    if (password.isEmpty()) return;
+    
+    if (bankingSystem->createAdmin(firstName.toStdString(), lastName.toStdString(),
+                                 nationalCode.toStdString(), age,
+                                 username.toStdString(), password.toStdString())) {
+        QMessageBox::information(this, "موفق", "ادمین با موفقیت ایجاد شد.");
+        refreshAdminList();
+    } else {
+        QMessageBox::warning(this, "خطا", "خطا در ایجاد ادمین. نام کاربری تکراری است.");
+    }
 }
