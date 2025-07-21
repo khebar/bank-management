@@ -19,4 +19,8 @@ public:
     static bool removeCustomer(const string& username);
     static Customer* findCustomerByUsername(const string& username);
     static Customer* findCustomerByNationalCode(const string& nationalCode);
+    static bool addAccount(Account* account, Customer* owner);
+    static bool removeAccount(const string& accountNumber);
+    static Account* findAccountByAccountNumber(const string& accountNumber);
+    static Account* findAccountByCardNumber(const string& cardNumber);
 };
