@@ -21,3 +21,32 @@ string QarzAccount::getAccountType() const {
 double QarzAccount::getInterestRate() const {
     return interestRate;
 }
+double QarzAccount::getLoanAmount() const {
+    return loanAmount;
+}
+
+int QarzAccount::getRemainingInstallments() const {
+    return remainingInstallments;
+}
+
+double QarzAccount::getMonthlyPayment() const {
+    return monthlyPayment;
+}
+
+bool QarzAccount::payInstallment() {
+    if (remainingInstallments <= 0) {
+        return false; // وام تسویه شده است
+    }
+    
+    if (balance >= monthlyPayment) {
+        balance -= monthlyPayment;
+        remainingInstallments--;
+        return true;
+    }
+    
+    return false; // موجودی ناکافی
+}
+
+double QarzAccount::getTotalPayable() const {
+    return monthlyPayment * loanTermMonths;
+}
