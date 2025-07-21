@@ -71,3 +71,32 @@ void MainWindow::switchToCustomerPage()
 void MainWindow::refreshAccountList() {}
 void MainWindow::refreshCustomerList() {}
 void MainWindow::refreshAdminList() {}
+
+void MainWindow::on_loginButton_clicked()
+{
+    QString username = ui->usernameLineEdit->text();
+    QString password = ui->passwordLineEdit->text();
+    
+    if (bankingSystem->login(username.toStdString(), password.toStdString())) {
+        User* user = bankingSystem->getCurrentUser();
+        if (user->getUserType() == "ادمین") {
+            switchToAdminPage();
+        } else {
+            switchToCustomerPage();
+        }
+    } else {
+        QMessageBox::warning(this, "خطا", "نام کاربری یا رمز عبور اشتباه است.");
+    }
+}
+
+void MainWindow::on_adminLogoutButton_clicked()
+{
+    bankingSystem->logout();
+    switchToLoginPage();
+}
+
+void MainWindow::on_customerLogoutButton_clicked()
+{
+    bankingSystem->logout();
+    switchToLoginPage();
+}
