@@ -16,4 +16,5 @@ public:
 private:
     Ui::MainWindow *ui;
     BankingSystem* bankingSystem;
+    void on_loginButton_clicked();
 };
