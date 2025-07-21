@@ -9,3 +9,16 @@ string DepositAccount::getAccountType() const {
 double DepositAccount::getInterestRate() const {
     return interestRate;
 }
+double DepositAccount::calculateInterest(int months) const {
+    return balance * (interestRate / 100) * (months / 12.0);
+}
+
+int DepositAccount::getRemainingTerm() const {
+    return depositTermMonths;
+}
+
+void DepositAccount::extendTerm(int additionalMonths) {
+    if (additionalMonths > 0) {
+        depositTermMonths += additionalMonths;
+    }
+}
