@@ -16,4 +16,9 @@ public:
     
     std::string getAccountType() const override;
     double getInterestRate() const override;
+    double getLoanAmount() const;
+    int getRemainingInstallments() const;
+    double getMonthlyPayment() const;
+    bool payInstallment();
+    double getTotalPayable() const;
 };
