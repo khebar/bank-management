@@ -1,5 +1,3 @@
-#ifndef ADMIN_H
-#define ADMIN_H
 
 #include "user.h"
 #include "customer.h"
@@ -18,5 +16,3 @@ public:
     ~Admin() override;
     string getUserType() const override;
 };
-
-#endif
