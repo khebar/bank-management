@@ -56,3 +56,54 @@ Account* Customer::findAccountByAccountNumber(const string& accountNumber) {
 int Customer::getAccountCount() const {
     return accounts.getSize();
 }
+
+const LinkedList<Account*>& Customer::getAccounts() const {
+    return accounts;
+}
+
+bool Customer::cardTransfer(const string& sourceCardNumber, 
+    const string& destinationCardNumber,
+    double amount, const string& pin) {
+    // بررسی مقدار انتقال
+    if (amount <= 0) {
+        return false;
+    }
+    
+    // پیدا کردن حساب مبدا
+    Account* sourceAccount = findAccountByCardNumber(sourceCardNumber);
+    if (sourceAccount == nullptr) {
+        return false; // حساب مبدا یافت نشد
+    }
+    
+    // بررسی سقف و محدودیت‌های تراکنش
+    if (!sourceAccount->checkTransferLimits(amount)) {
+        return false;
+    }
+    
+    // بررسی رمز
+    bool validPin = false;
+    if (amount <= 100000) { // تا 100 هزار تومان با رمز دوم ثابت
+        // اینجا باید رمز دوم ثابت  بررسی بشه
+        validPin = true;
+    } else {
+        // بیشتر از 100 هزار تومان نیاز به رمز دوم پویا
+        validPin = sourceAccount->validateDynamicPin(pin);
+    }
+    
+    if (!validPin) {
+        return false;
+    }
+    
+    // محاسبه کارمزد
+    double fee = sourceAccount->calculateTransferFee(amount);
+    
+    // بررسی موجودی (مبلغ + کارمزد)
+    if (sourceAccount->getBalance() < amount + fee) {
+        return false;
+    }
+    
+    // انجام تراکنش
+    sourceAccount->withdraw(amount + fee);
+    
+    return true;
+}
