@@ -1,0 +1,12 @@
+debug/account.o
+debug/admin.o
+debug/bankingsystem.o
+debug/currentaccount.o
+debug/customer.o
+debug/depositaccount.o
+debug/main.o
+debug/mainwindow.o
+debug/qarzaccount.o
+debug/user.o
+debug/qrc_resources.o
+debug/moc_mainwindow.o
