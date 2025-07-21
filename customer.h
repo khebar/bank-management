@@ -12,6 +12,10 @@ public:
     const string& national, int userAge,
     const string& user, const string& pass);
     ~Customer() override;
-
     string getUserType() const override;
+    bool addAccount(Account* account);
+    bool removeAccount(const string& accountNumber);
+    Account* findAccountByCardNumber(const string& cardNumber);
+    Account* findAccountByAccountNumber(const string& accountNumber);
+    int getAccountCount() const;
 };
