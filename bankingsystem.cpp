@@ -1,4 +1,8 @@
 #include "bankingsystem.h"
+#include "depositaccount.h"
+#include "checkingaccount.h"
+#include "qarzaccount.h"
+#include <random>
 using namespace std;
 
 // Initialize static instance
@@ -44,11 +48,6 @@ User* BankingSystem::getCurrentUser() const {
     return currentUser;
 }
 
-#include "depositaccount.h"
-#include "checkingaccount.h"
-#include "qarzaccount.h"
-#include <random>
-
 void BankingSystem::initializeSystem() {
     // تعریف ادمین پیش‌فرض و مشتریان اولیه
     // و حساب‌های اولیه برای تست
@@ -82,4 +81,47 @@ void BankingSystem::initializeSystem() {
     
     QarzAccount* qarzAcc = new QarzAccount(cardNum3, accNum3, iban3, 200000, 5000000, 4.0, 36);
     Admin::addAccount(qarzAcc, customer);
+}
+// متد های عملیات بانکی
+bool BankingSystem::transferFunds(const string& sourceCard, const string& destCard, 
+    double amount, const string& pin) {
+    Customer* customer = dynamic_cast<Customer*>(currentUser);
+    if (customer == nullptr) {
+        return false;
+    }
+    
+    return customer->cardTransfer(sourceCard, destCard, amount, pin);
+}
+
+bool BankingSystem::changePin(const string& cardNumber, const string& oldPin, 
+    const string& newPin, bool isSecondPin) {
+    Customer* customer = dynamic_cast<Customer*>(currentUser);
+    if (customer == nullptr) {
+        return false;
+    }
+    
+    Account* account = customer->findAccountByCardNumber(cardNumber);
+    if (account == nullptr) {
+        return false;
+    }
+    
+    if (isSecondPin) {
+        return account->changeSecondPin(oldPin, newPin);
+    } else {
+        return account->changeFirstPin(oldPin, newPin);
+    }
+}
+
+string BankingSystem::generateDynamicPin(const string& cardNumber) {
+    Customer* customer = dynamic_cast<Customer*>(currentUser);
+    if (customer == nullptr) {
+        return "";
+    }
+    
+    Account* account = customer->findAccountByCardNumber(cardNumber);
+    if (account == nullptr) {
+        return "";
+    }
+    
+    return account->generateDynamicPin();
 }
