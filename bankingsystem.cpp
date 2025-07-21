@@ -54,7 +54,7 @@ void BankingSystem::initializeSystem() {
     Admin* admin = new Admin("Admin", "User", "0000000000", 30, "admin", "admin123");
     Admin::addAdmin(admin);
     
-    Customer* customer = new Customer("John", "Doe", "1111111111", 25, "john", "john123");
+    Customer* customer = new Customer("َAli", "Mahdian", "1111111111", 20, "ali", "ali123");
     Admin::addCustomer(customer);
     
     random_device rd;
