@@ -1,5 +1,5 @@
 #include "admin.h"
-
+using namespace std;
 LinkedList<Admin*> Admin::allAdmins;
 LinkedList<Customer*> Admin::allCustomers;
 LinkedList<Account*> Admin::allAccounts;
