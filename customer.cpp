@@ -12,6 +12,47 @@ Customer::~Customer() {
     }
 }
 
-std::string Customer::getUserType() const {
+string Customer::getUserType() const {
     return "Customer";
+}
+bool Customer::addAccount(Account* account) {
+    if (getAccountCount() >= MAX_ACCOUNTS) {
+        return false; // حداکثر تعداد حساب
+    }
+    
+    accounts.add(account);
+    return true;
+}
+
+bool Customer::removeAccount(const string& accountNumber) {
+    for (int i = 0; i < accounts.getSize(); i++) {
+        if (accounts.get(i)->getAccountNumber() == accountNumber) {
+            delete accounts.get(i);
+            accounts.remove(i);
+            return true;
+        }
+    }
+    return false;
+}
+
+Account* Customer::findAccountByCardNumber(const string& cardNumber) {
+    for (int i = 0; i < accounts.getSize(); i++) {
+        if (accounts.get(i)->getCardNumber() == cardNumber) {
+            return accounts.get(i);
+        }
+    }
+    return nullptr;
+}
+
+Account* Customer::findAccountByAccountNumber(const string& accountNumber) {
+    for (int i = 0; i < accounts.getSize(); i++) {
+        if (accounts.get(i)->getAccountNumber() == accountNumber) {
+            return accounts.get(i);
+        }
+    }
+    return nullptr;
+}
+
+int Customer::getAccountCount() const {
+    return accounts.getSize();
 }
