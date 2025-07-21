@@ -161,4 +161,73 @@ void MainWindow::on_adminCreateAdminButton_clicked()
     } else {
         QMessageBox::warning(this, "خطا", "خطا در ایجاد ادمین. نام کاربری تکراری است.");
     }
+    //متد ایجاد حساب
+    QStringList customers;
+    const LinkedList<Customer*>& allCustomers = Admin::getAllCustomers();
+    
+    for (int i = 0; i < allCustomers.getSize(); i++) {
+        Customer* customer = allCustomers.get(i);
+        customers << QString("%1 %2 (%3)")
+        .arg(QString::fromStdString(customer->getFirstName()))
+        .arg(QString::fromStdString(customer->getLastName()))
+        .arg(QString::fromStdString(customer->getUsername()));
+    }
+    
+    bool ok;
+    QString selectedCustomer = QInputDialog::getItem(this, "ایجاد حساب", 
+                "انتخاب مشتری:", customers, 0, false, &ok);
+    if (!ok || selectedCustomer.isEmpty()) return;
+    
+    // Extract username from the selected item
+    int startPos = selectedCustomer.lastIndexOf('(') + 1;
+    int endPos = selectedCustomer.lastIndexOf(')');
+    QString username = selectedCustomer.mid(startPos, endPos - startPos);
+    
+    QStringList accountTypes;
+    accountTypes << "حساب سپرده" << "حساب جاری" << "حساب قرض‌الحسنه";
+    
+    QString selectedType = QInputDialog::getItem(this, "ایجاد حساب", 
+                "نوع حساب:", accountTypes, 0, false, &ok);
+    if (!ok || selectedType.isEmpty()) return;
+    
+    double initialBalance = QInputDialog::getDouble(this, "ایجاد حساب", 
+                "موجودی اولیه:", 0, 0, 1000000000, 2, &ok);
+    if (!ok) return;
+    
+    double rate = 0;
+    int term = 0;
+    
+    if (selectedType == "حساب سپرده") {
+        rate = QInputDialog::getDouble(this, "ایجاد حساب", 
+        "نرخ سود (٪):", 15, 0, 100, 2, &ok);
+        if (!ok) return;
+        
+        term = QInputDialog::getInt(this, "ایجاد حساب", 
+        "مدت (ماه):", 12, 1, 120, 1, &ok);
+        if (!ok) return;
+    } else if (selectedType == "حساب قرض‌الحسنه") {
+        rate = QInputDialog::getDouble(this, "ایجاد حساب", 
+        "نرخ کارمزد (٪):", 4, 0, 20, 2, &ok);
+        if (!ok) return;
+        
+        term = QInputDialog::getInt(this, "ایجاد حساب", 
+    "مدت بازپرداخت (ماه):", 12, 1, 120, 1, &ok);
+        if (!ok) return;
+    }
+    
+    std::string accountTypeStr;
+    if (selectedType == "حساب سپرده") {
+        accountTypeStr = "deposit";
+    } else if (selectedType == "حساب جاری") {
+        accountTypeStr = "current";
+    } else {
+        accountTypeStr = "qarz";
+    }
+    
+    if (bankingSystem->createAccount(username.toStdString(), accountTypeStr, initialBalance, rate, term)) {
+        QMessageBox::information(this, "موفق", "حساب با موفقیت ایجاد شد.");
+        refreshAccountList();
+    } else {
+        QMessageBox::warning(this, "خطا", "خطا در ایجاد حساب.");
+    }
 }
