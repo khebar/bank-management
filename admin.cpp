@@ -117,3 +117,44 @@ Account* Admin::findAccountByCardNumber(const string& cardNumber) {
     }
     return nullptr;
 }
+
+bool Admin::addAdmin(Admin* admin) {
+    if (findAdminByUsername(admin->getUsername()) != nullptr) {
+        return false; // ادمین با این نام کاربری قبلاً وجود دارد
+    }
+    
+    allAdmins.add(admin);
+    return true;
+}
+
+bool Admin::removeAdmin(const string& username) {
+    for (int i = 0; i < allAdmins.getSize(); i++) {
+        if (allAdmins.get(i)->getUsername() == username) {
+            delete allAdmins.get(i);
+            allAdmins.remove(i);
+            return true;
+        }
+    }
+    return false;
+}
+
+Admin* Admin::findAdminByUsername(const string& username) {
+    for (int i = 0; i < allAdmins.getSize(); i++) {
+        if (allAdmins.get(i)->getUsername() == username) {
+            return allAdmins.get(i);
+        }
+    }
+    return nullptr;
+}
+
+const LinkedList<Admin*>& Admin::getAllAdmins() {
+    return allAdmins;
+}
+
+const LinkedList<Customer*>& Admin::getAllCustomers() {
+    return allCustomers;
+}
+
+const LinkedList<Account*>& Admin::getAllAccounts() {
+    return allAccounts;
+}
