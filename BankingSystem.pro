@@ -8,6 +8,7 @@ SOURCES += \
     account.cpp \
     admin.cpp \
     bankingsystem.cpp \
+    checkingaccount.cpp \
     currentaccount.cpp \
     customer.cpp \
     depositaccount.cpp \
@@ -20,6 +21,7 @@ HEADERS += \
     account.h \
     admin.h \
     bankingsystem.h \
+    checkingaccount.h \
     currentaccount.h \
     customer.h \
     depositaccount.h \

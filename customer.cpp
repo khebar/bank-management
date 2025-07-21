@@ -87,7 +87,7 @@ bool Customer::cardTransfer(const string& sourceCardNumber,
         validPin = true;
     } else {
         // بیشتر از 100 هزار تومان نیاز به رمز دوم پویا
-        validPin = sourceAccount->validateDynamicPin(pin);
+        validPin = sourceAccount->verifyDynamicPin(pin);
     }
     
     if (!validPin) {

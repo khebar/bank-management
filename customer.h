@@ -1,7 +1,11 @@
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
+
 #include "user.h"
 #include "account.h"
 #include "linkedlist.h"
 using namespace std;
+
 class Customer : public User {
 private:
     LinkedList<Account*> accounts;
@@ -24,3 +28,5 @@ public:
     const string& destinationCardNumber,
     double amount, const string& pin);
 };
+
+#endif // CUSTOMER_H

@@ -1,3 +1,6 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
 #include <QMainWindow>
 #include "bankingsystem.h"
 
@@ -35,8 +38,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     BankingSystem* bankingSystem;
-    Ui::MainWindow *ui;
-    BankingSystem* bankingSystem;
     
     void setupLoginPage();
     void setupAdminPage();
@@ -49,3 +50,5 @@ private:
     void refreshAdminList();
     
 };
+
+#endif // MAINWINDOW_H

@@ -1,6 +1,7 @@
 debug/account.o
 debug/admin.o
 debug/bankingsystem.o
+debug/checkingaccount.o
 debug/currentaccount.o
 debug/customer.o
 debug/depositaccount.o

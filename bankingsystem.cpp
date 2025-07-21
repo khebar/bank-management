@@ -1,6 +1,7 @@
 #include "bankingsystem.h"
 #include "depositaccount.h"
 #include "checkingaccount.h"
+#include "currentaccount.h"
 #include "qarzaccount.h"
 #include <random>
 using namespace std;
@@ -59,7 +60,7 @@ void BankingSystem::initializeSystem() {
     
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> dist(1000000000, 9999999999);
+    uniform_int_distribution<long long> dist(1000000000LL, 9999999999LL);
     
     string cardNum1 = to_string(dist(gen));
     string accNum1 = to_string(dist(gen));
@@ -70,7 +71,7 @@ void BankingSystem::initializeSystem() {
     
     string cardNum2 = to_string(dist(gen));
     string accNum2 = to_string(dist(gen));
-    string iban2 = "IR" + to_string(dist(gen)) + to_string(dist(gen()));
+    string iban2 = "IR" + to_string(dist(gen)) + to_string(dist(gen));
 
     CheckingAccount* checkingAcc = new CheckingAccount(cardNum2, accNum2, iban2, 500000, 200000, 18.0);
     Admin::addAccount(checkingAcc, customer);
@@ -166,7 +167,7 @@ bool BankingSystem::createAccount(const string& customerUsername, const string& 
     // Generate random card and account numbers
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> dist(1000000000, 9999999999);
+    uniform_int_distribution<long long> dist(1000000000LL, 9999999999LL);
     
     string cardNum = to_string(dist(gen));
     string accNum = to_string(dist(gen));

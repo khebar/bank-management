@@ -1,3 +1,6 @@
+#ifndef QARZACCOUNT_H
+#define QARZACCOUNT_H
+
 #include "account.h"
 #include <string>
 
@@ -22,3 +25,5 @@ public:
     bool payInstallment();
     double getTotalPayable() const;
 };
+
+#endif // QARZACCOUNT_H

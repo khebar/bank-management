@@ -1,3 +1,6 @@
+#ifndef BANKINGSYSTEM_H
+#define BANKINGSYSTEM_H
+
 #include "user.h"
 #include "customer.h"
 #include "admin.h"
@@ -35,4 +38,6 @@ public:
     bool createAccount(const string& customerUsername, const string& accountType,
         double initialBalance, double interestRate = 0.0, int term = 0);
 };
+
+#endif // BANKINGSYSTEM_H
 

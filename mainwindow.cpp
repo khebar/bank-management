@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QInputDialog>
+#include <QMessageBox>
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QHeaderView>
@@ -30,23 +31,23 @@ void MainWindow::setupLoginPage()
 
 void MainWindow::setupAdminPage()
 {
-    connect(ui->adminCreateCustomerButton, &QPushButton::clicked, this, &MainWindow::on_adminCreateCustomerButton_clicked);
-    connect(ui->adminCreateAdminButton, &QPushButton::clicked, this, &MainWindow::on_adminCreateAdminButton_clicked);
-    connect(ui->adminCreateAccountButton, &QPushButton::clicked, this, &MainWindow::on_adminCreateAccountButton_clicked);
-    connect(ui->adminViewCustomersButton, &QPushButton::clicked, this, &MainWindow::on_adminViewCustomersButton_clicked);
-    connect(ui->adminViewAccountsButton, &QPushButton::clicked, this, &MainWindow::on_adminViewAccountsButton_clicked);
-    connect(ui->adminViewAdminsButton, &QPushButton::clicked, this, &MainWindow::on_adminViewAdminsButton_clicked);
-    connect(ui->adminLogoutButton, &QPushButton::clicked, this, &MainWindow::on_adminLogoutButton_clicked);
+    // connect(ui->adminCreateCustomerButton, &QPushButton::clicked, this, &MainWindow::on_adminCreateCustomerButton_clicked);
+    // connect(ui->adminCreateAdminButton, &QPushButton::clicked, this, &MainWindow::on_adminCreateAdminButton_clicked);
+    // connect(ui->adminCreateAccountButton, &QPushButton::clicked, this, &MainWindow::on_adminCreateAccountButton_clicked);
+    // connect(ui->adminViewCustomersButton, &QPushButton::clicked, this, &MainWindow::on_adminViewCustomersButton_clicked);
+    // connect(ui->adminViewAccountsButton, &QPushButton::clicked, this, &MainWindow::on_adminViewAccountsButton_clicked);
+    // connect(ui->adminViewAdminsButton, &QPushButton::clicked, this, &MainWindow::on_adminViewAdminsButton_clicked);
+    // connect(ui->adminLogoutButton, &QPushButton::clicked, this, &MainWindow::on_adminLogoutButton_clicked);
 }
 
 void MainWindow::setupCustomerPage()
 {
-    connect(ui->customerViewAccountsButton, &QPushButton::clicked, this, &MainWindow::on_customerViewAccountsButton_clicked);
-    connect(ui->customerChangeFirstPinButton, &QPushButton::clicked, this, &MainWindow::on_customerChangeFirstPinButton_clicked);
-    connect(ui->customerChangeSecondPinButton, &QPushButton::clicked, this, &MainWindow::on_customerChangeSecondPinButton_clicked);
-    connect(ui->customerGenerateDynamicPinButton, &QPushButton::clicked, this, &MainWindow::on_customerGenerateDynamicPinButton_clicked);
-    connect(ui->customerTransferButton, &QPushButton::clicked, this, &MainWindow::on_customerTransferButton_clicked);
-    connect(ui->customerLogoutButton, &QPushButton::clicked, this, &MainWindow::on_customerLogoutButton_clicked);
+    // connect(ui->customerViewAccountsButton, &QPushButton::clicked, this, &MainWindow::on_customerViewAccountsButton_clicked);
+    // connect(ui->customerChangeFirstPinButton, &QPushButton::clicked, this, &MainWindow::on_customerChangeFirstPinButton_clicked);
+    // connect(ui->customerChangeSecondPinButton, &QPushButton::clicked, this, &MainWindow::on_customerChangeSecondPinButton_clicked);
+    // connect(ui->customerGenerateDynamicPinButton, &QPushButton::clicked, this, &MainWindow::on_customerGenerateDynamicPinButton_clicked);
+    // connect(ui->customerTransferButton, &QPushButton::clicked, this, &MainWindow::on_customerTransferButton_clicked);
+    // connect(ui->customerLogoutButton, &QPushButton::clicked, this, &MainWindow::on_customerLogoutButton_clicked);
 }
 
 void MainWindow::switchToLoginPage()
@@ -165,6 +166,10 @@ void MainWindow::on_adminCreateAdminButton_clicked()
     } else {
         QMessageBox::warning(this, "خطا", "خطا در ایجاد ادمین. نام کاربری تکراری است.");
     }
+}
+
+void MainWindow::on_adminCreateAccountButton_clicked()
+{
     QStringList customers;
     const LinkedList<Customer*>& allCustomers = Admin::getAllCustomers();
     
@@ -232,8 +237,9 @@ void MainWindow::on_adminCreateAdminButton_clicked()
     } else {
         QMessageBox::warning(this, "خطا", "خطا در ایجاد حساب.");
     }
+}
 
-    void MainWindow::on_adminViewCustomersButton_clicked()
+void MainWindow::on_adminViewCustomersButton_clicked()
 {
     const LinkedList<Customer*>& customers = Admin::getAllCustomers();
     
@@ -532,5 +538,4 @@ void MainWindow::on_customerTransferButton_clicked()
     } else {
         QMessageBox::warning(this, "خطا", "خطا در انتقال وجه. لطفاً مجدداً بررسی کنید.");
     }
-}
 }

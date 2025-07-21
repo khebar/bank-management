@@ -1,3 +1,6 @@
+#ifndef DEPOSITACCOUNT_H
+#define DEPOSITACCOUNT_H
+
 #include "account.h"
 using namespace std;
 
@@ -13,3 +16,5 @@ public:
     int getRemainingTerm() const;
     void extendTerm(int additionalMonths);
 };
+
+#endif // DEPOSITACCOUNT_H

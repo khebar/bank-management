@@ -1,3 +1,6 @@
+#ifndef ACCOUNT_H
+#define ACCOUNT_H
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -30,14 +33,17 @@ public:
     string getCvv2() const;
     string getExpirationDate() const;
     double getBalance() const;
-    bool withdraw(double amount);
-    bool deposit(double amount);
+    virtual bool withdraw(double amount);
+    void deposit(double amount);
     bool changeFirstPin(const string& oldPin, const string& newPin);
     bool changeSecondPin(const string& oldPin, const string& newPin);
     string generateDynamicPin();
     bool validateDynamicPin(const string& pin);
-    bool checkTransferLimits(double amount) const;
-    double claculateTransferFee(double amount) const;
-    void resetDailyLimits();
+    bool verifyDynamicPin(const string& pin);
+    bool checkTransferLimits(double amount);
+    double calculateTransferFee(double amount) const;
+    void resetDailyLimit();
     
 };
+
+#endif // ACCOUNT_H

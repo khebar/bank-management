@@ -1,25 +1,25 @@
-#ifndef CHECKINGACCOUNT_H
-#define CHECKINGACCOUNT_H
+#ifndef CURRENTACCOUNT_H
+#define CURRENTACCOUNT_H
 
 #include "account.h"
 #include <string>
 using namespace std;
 
-class CheckingAccount : public Account {
+class CurrentAccount : public Account {
 private:
     double overdraftLimit;  // سقف اضافه برداشت
-    double overdraftInterest; // نرخ بهره اضافه برداشت
+    double interestRate;    // نرخ بهره
 
 public:
-    CheckingAccount(const string& cardNum, const string& accNum, 
+    CurrentAccount(const string& cardNum, const string& accNum, 
                    const string& ibanNum, double initialBalance,
-                   double overLimit = 0.0, double overInterest = 0.0);
+                   double overLimit = 0.0, double interest = 0.0);
+    
     double getOverdraftLimit() const;
     void setOverdraftLimit(double limit);
-    double getOverdraftInterest() const;
     bool withdraw(double amount) override; // بازنویسی برای پشتیبانی از اضافه برداشت
     string getAccountType() const override;
     double getInterestRate() const override;
 };
 
-#endif // CHECKINGACCOUNT_H
+#endif // CURRENTACCOUNT_H

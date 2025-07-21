@@ -1,8 +1,12 @@
 
+#ifndef ADMIN_H
+#define ADMIN_H
+
 #include "user.h"
 #include "customer.h"
 #include "linkedlist.h"
 using namespace std;
+
 class Admin : public User {
 private:
     static LinkedList<Admin*> allAdmins;
@@ -32,3 +36,5 @@ public:
     static const LinkedList<Customer*>& getAllCustomers();
     static const LinkedList<Account*>& getAllAccounts();
 };
+
+#endif // ADMIN_H

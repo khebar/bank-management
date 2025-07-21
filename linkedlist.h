@@ -1,16 +1,26 @@
 
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
+
 #include <iostream>
+#include <stdexcept>
 
 template <typename T>
 class Node {
 public:
     T data;
     Node* next;
-    Node(T value):data(value),next(nullptr) {}
-    T get(int index) const;
-    int getSize() const;
-    bool isEmpty() const;
-    class iterator {
+    Node(T value) : data(value), next(nullptr) {}
+};
+
+template <typename T>
+class LinkedList {
+private:
+    Node<T>* head;
+    int size;
+
+public:
+    class Iterator {
     private:
         Node<T>* current;
     public:
@@ -30,6 +40,15 @@ public:
             return current != other.current;
         }
     };
+
+    LinkedList();
+    ~LinkedList();
+    
+    void add(T value);
+    bool remove(int index);
+    T get(int index) const;
+    int getSize() const;
+    bool isEmpty() const;
     
     Iterator begin() {
         return Iterator(head);
@@ -38,25 +57,11 @@ public:
     Iterator end() {
         return Iterator(nullptr);
     }
-
-};
-
-template <typename T>
-class LinkedList {
-private:
-    Node<T>* head;
-    int size;
-
-public:
-    LinkedList();
-    ~LinkedList();
-    
-    void add(T value);
-    bool remove(int index);
 };
 
 template <typename T>
 LinkedList<T>::LinkedList() : head(nullptr), size(0) {}
+
 template <typename T>
 LinkedList<T>::~LinkedList() {
     Node<T>* current = head;
@@ -68,6 +73,7 @@ LinkedList<T>::~LinkedList() {
     head = nullptr;
     size = 0;
 }
+
 template <typename T>
 void LinkedList<T>::add(T value) {
     Node<T>* newNode = new Node<T>(value);
@@ -109,7 +115,7 @@ bool LinkedList<T>::remove(int index) {
 template <typename T>
 T LinkedList<T>::get(int index) const {
     if (index < 0 || index >= size) {
-        throw std::out_of_range("out of range");
+        throw std::out_of_range("Index out of range");
     }
     
     Node<T>* current = head;
@@ -128,3 +134,5 @@ template <typename T>
 bool LinkedList<T>::isEmpty() const {
     return size == 0;
 }
+
+#endif // LINKEDLIST_H

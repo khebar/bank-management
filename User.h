@@ -1,11 +1,11 @@
+#ifndef USER_H
+#define USER_H
+
 #include <iostream>
 #include <string>
 using namespace std;
+
 class User{
-private:
-    string name;
-    string email;
-    string password;
 protected:
     string firstName;
     string lastName;
@@ -26,3 +26,5 @@ public:
     bool changePassword(const string& oldPass, const string& newPass);
     
 };
+
+#endif // USER_H
