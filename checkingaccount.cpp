@@ -14,3 +14,34 @@ string CheckingAccount::getAccountType() const {
 double CheckingAccount::getInterestRate() const {
     return 0.0; // حساب جاری اغلب اوقات سود ندارد
 }
+
+double CheckingAccount::getOverdraftLimit() const {
+    return overdraftLimit;
+}
+
+void CheckingAccount::setOverdraftLimit(double limit) {
+    if (limit >= 0) {
+        overdraftLimit = limit;
+    }
+}
+
+double CheckingAccount::getOverdraftInterest() const {
+    return overdraftInterest;
+}
+
+bool CheckingAccount::withdraw(double amount) {
+    if (amount <= 0) { 
+        return false;
+    }
+    
+    if (amount <= balance) {
+        balance -= amount;
+        return true;
+    } else if (amount <= balance + overdraftLimit) {
+        // استفاده از اضافه برداشت
+        balance -= amount;
+        return true;
+    }
+    
+    return false;
+}
