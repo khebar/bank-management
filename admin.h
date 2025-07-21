@@ -15,4 +15,8 @@ public:
          const string& user, const string& pass);
     ~Admin() override;
     string getUserType() const override;
+    static bool addCustomer(Customer* customer);
+    static bool removeCustomer(const string& username);
+    static Customer* findCustomerByUsername(const string& username);
+    static Customer* findCustomerByNationalCode(const string& nationalCode);
 };
