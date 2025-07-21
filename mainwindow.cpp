@@ -5,7 +5,7 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <QVBoxLayout>
-
+using namespace std;
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -165,7 +165,6 @@ void MainWindow::on_adminCreateAdminButton_clicked()
     } else {
         QMessageBox::warning(this, "خطا", "خطا در ایجاد ادمین. نام کاربری تکراری است.");
     }
-    //متد ایجاد حساب
     QStringList customers;
     const LinkedList<Customer*>& allCustomers = Admin::getAllCustomers();
     
@@ -182,7 +181,6 @@ void MainWindow::on_adminCreateAdminButton_clicked()
                 "انتخاب مشتری:", customers, 0, false, &ok);
     if (!ok || selectedCustomer.isEmpty()) return;
     
-    // Extract username from the selected item
     int startPos = selectedCustomer.lastIndexOf('(') + 1;
     int endPos = selectedCustomer.lastIndexOf(')');
     QString username = selectedCustomer.mid(startPos, endPos - startPos);
@@ -218,8 +216,8 @@ void MainWindow::on_adminCreateAdminButton_clicked()
     "مدت بازپرداخت (ماه):", 12, 1, 120, 1, &ok);
         if (!ok) return;
     }
-    
-    std::string accountTypeStr;
+
+    string accountTypeStr;
     if (selectedType == "حساب سپرده") {
         accountTypeStr = "deposit";
     } else if (selectedType == "حساب جاری") {
@@ -329,5 +327,84 @@ void MainWindow::on_adminViewAdminsButton_clicked()
     dialog.setLayout(layout);
     
     dialog.exec();
+}
+void MainWindow::on_customerViewAccountsButton_clicked()
+{
+    Customer* customer = dynamic_cast<Customer*>(bankingSystem->getCurrentUser());
+    if (!customer) return;
+    
+    const LinkedList<Account*>& accounts = customer->getAccounts();
+    
+    QDialog dialog(this);
+    dialog.setWindowTitle("حساب‌های من");
+    dialog.setMinimumSize(800, 400);
+    
+    QTableWidget* table = new QTableWidget(&dialog);
+    table->setColumnCount(7);
+    table->setHorizontalHeaderLabels(QStringList() << "نوع حساب" << "شماره حساب" << "شماره کارت" << "شماره شبا" 
+                                   << "تاریخ انقضا" << "CVV2" << "موجودی");
+    table->setRowCount(accounts.getSize());
+    
+    for (int i = 0; i < accounts.getSize(); i++) {
+        Account* account = accounts.get(i);
+        table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(account->getAccountType())));
+        table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(account->getAccountNumber())));
+        table->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(account->getCardNumber())));
+        table->setItem(i, 3, new QTableWidgetItem(QString::fromStdString(account->getIban())));
+        table->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(account->getExpirationDate())));
+        table->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(account->getCvv2())));
+        table->setItem(i, 6, new QTableWidgetItem(QString::number(account->getBalance(), 'f', 0)));
+    }
+    
+    QVBoxLayout* layout = new QVBoxLayout(&dialog);
+    layout->addWidget(table);
+    
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    dialog.setLayout(layout);
+    
+    dialog.exec();
+}
+
+void MainWindow::on_customerChangeFirstPinButton_clicked()
+{
+    Customer* customer = dynamic_cast<Customer*>(bankingSystem->getCurrentUser());
+    if (!customer) return;
+    
+    QStringList cardNumbers;
+    const LinkedList<Account*>& accounts = customer->getAccounts();
+    
+    for (int i = 0; i < accounts.getSize(); i++) {
+        Account* account = accounts.get(i);
+        cardNumbers << QString("%1 (%2)")
+                      .arg(QString::fromStdString(account->getCardNumber()))
+                      .arg(QString::fromStdString(account->getAccountType()));
+    }
+    
+    bool ok;
+    QString selectedCard = QInputDialog::getItem(this, "تغییر رمز اول", 
+                                               "انتخاب کارت:", cardNumbers, 0, false, &ok);
+    if (!ok || selectedCard.isEmpty()) return;
+    
+    QString cardNumber = selectedCard.split(" ").first();
+    
+    QString oldPin = QInputDialog::getText(this, "تغییر رمز اول", 
+                                         "رمز فعلی:", QLineEdit::Password, "", &ok);
+    if (!ok || oldPin.isEmpty()) return;
+    
+    QString newPin = QInputDialog::getText(this, "تغییر رمز اول", 
+                                         "رمز جدید (4 رقمی):", QLineEdit::Password, "", &ok);
+    if (!ok || newPin.isEmpty()) return;
+    
+    if (newPin.length() != 4 || !newPin.toInt(&ok) || !ok) {
+        QMessageBox::warning(this, "خطا", "رمز اول باید 4 رقم باشد.");
+        return;
+    }
+    
+    if (bankingSystem->changePin(cardNumber.toStdString(), oldPin.toStdString(), 
+                               newPin.toStdString(), false)) {
+        QMessageBox::information(this, "موفق", "رمز اول با موفقیت تغییر یافت.");
+    } else {
+        QMessageBox::warning(this, "خطا", "رمز فعلی اشتباه است یا عملیات با خطا مواجه شد.");
+    }
 }
 }
