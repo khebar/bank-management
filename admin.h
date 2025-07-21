@@ -23,4 +23,12 @@ public:
     static bool removeAccount(const string& accountNumber);
     static Account* findAccountByAccountNumber(const string& accountNumber);
     static Account* findAccountByCardNumber(const string& cardNumber);
+    static bool addAdmin(Admin* admin);
+    static bool removeAdmin(const string& username);
+    static Admin* findAdminByUsername(const string& username);
+
+    // گترها
+    static const LinkedList<Admin*>& getAllAdmins();
+    static const LinkedList<Customer*>& getAllCustomers();
+    static const LinkedList<Account*>& getAllAccounts();
 };
