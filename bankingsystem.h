@@ -14,8 +14,9 @@ public:
     
     static BankingSystem* getInstance();
     
-    // Login/logout
+    
     bool login(const string& username, const string& password);
     void logout();
     User* getCurrentUser() const;
+    void initializeSystem(); // پیاده سازی ابتدایی و اجرای سیستم با مقادیر اولیه
 };
