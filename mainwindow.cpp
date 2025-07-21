@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QInputDialog>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QHeaderView>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -230,4 +234,100 @@ void MainWindow::on_adminCreateAdminButton_clicked()
     } else {
         QMessageBox::warning(this, "خطا", "خطا در ایجاد حساب.");
     }
+
+    void MainWindow::on_adminViewCustomersButton_clicked()
+{
+    const LinkedList<Customer*>& customers = Admin::getAllCustomers();
+    
+    QDialog dialog(this);
+    dialog.setWindowTitle("لیست مشتریان");
+    dialog.setMinimumSize(600, 400);
+    
+    QTableWidget* table = new QTableWidget(&dialog);
+    table->setColumnCount(5);
+    table->setHorizontalHeaderLabels(QStringList() << "نام" << "نام خانوادگی" << "کد ملی" << "سن" << "نام کاربری");
+    table->setRowCount(customers.getSize());
+    
+    for (int i = 0; i < customers.getSize(); i++) {
+        Customer* customer = customers.get(i);
+        table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(customer->getFirstName())));
+        table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(customer->getLastName())));
+        table->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(customer->getNationalCode())));
+        table->setItem(i, 3, new QTableWidgetItem(QString::number(customer->getAge())));
+        table->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(customer->getUsername())));
+    }
+    
+    QVBoxLayout* layout = new QVBoxLayout(&dialog);
+    layout->addWidget(table);
+    
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    dialog.setLayout(layout);
+    
+    dialog.exec();
+}
+
+void MainWindow::on_adminViewAccountsButton_clicked()
+{
+    const LinkedList<Account*>& accounts = Admin::getAllAccounts();
+    
+    QDialog dialog(this);
+    dialog.setWindowTitle("لیست حساب‌ها");
+    dialog.setMinimumSize(800, 400);
+    
+    QTableWidget* table = new QTableWidget(&dialog);
+    table->setColumnCount(7);
+    table->setHorizontalHeaderLabels(QStringList() << "نوع حساب" << "شماره حساب" << "شماره کارت" << "شماره شبا" 
+                                   << "تاریخ انقضا" << "CVV2" << "موجودی");
+    table->setRowCount(accounts.getSize());
+    
+    for (int i = 0; i < accounts.getSize(); i++) {
+        Account* account = accounts.get(i);
+        table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(account->getAccountType())));
+        table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(account->getAccountNumber())));
+        table->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(account->getCardNumber())));
+        table->setItem(i, 3, new QTableWidgetItem(QString::fromStdString(account->getIban())));
+        table->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(account->getExpirationDate())));
+        table->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(account->getCvv2())));
+        table->setItem(i, 6, new QTableWidgetItem(QString::number(account->getBalance(), 'f', 0)));
+    }
+    
+    QVBoxLayout* layout = new QVBoxLayout(&dialog);
+    layout->addWidget(table);
+    
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    dialog.setLayout(layout);
+    
+    dialog.exec();
+}
+
+void MainWindow::on_adminViewAdminsButton_clicked()
+{
+    const LinkedList<Admin*>& admins = Admin::getAllAdmins();
+    
+    QDialog dialog(this);
+    dialog.setWindowTitle("لیست ادمین‌ها");
+    dialog.setMinimumSize(600, 400);
+    
+    QTableWidget* table = new QTableWidget(&dialog);
+    table->setColumnCount(5);
+    table->setHorizontalHeaderLabels(QStringList() << "نام" << "نام خانوادگی" << "کد ملی" << "سن" << "نام کاربری");
+    table->setRowCount(admins.getSize());
+    
+    for (int i = 0; i < admins.getSize(); i++) {
+        Admin* admin = admins.get(i);
+        table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(admin->getFirstName())));
+        table->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(admin->getLastName())));
+        table->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(admin->getNationalCode())));
+        table->setItem(i, 3, new QTableWidgetItem(QString::number(admin->getAge())));
+        table->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(admin->getUsername())));
+    }
+    
+    QVBoxLayout* layout = new QVBoxLayout(&dialog);
+    layout->addWidget(table);
+    
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    dialog.setLayout(layout);
+    
+    dialog.exec();
+}
 }
