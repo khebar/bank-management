@@ -289,6 +289,7 @@ Makefile: ../../BankingSystem.pro E:/Qt/6.9.0/mingw_64/mkspecs/win32-g++/qmake.c
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/resolve_config.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/exclusive_builds_post.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/default_post.prf \
+		E:/Qt/6.9.0/mingw_64/mkspecs/features/win32/console.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/qml_debug.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/precompile_header.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/warn_on.prf \
@@ -301,7 +302,6 @@ Makefile: ../../BankingSystem.pro E:/Qt/6.9.0/mingw_64/mkspecs/win32-g++/qmake.c
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/uic.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/qmake_use.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/file_copies.prf \
-		E:/Qt/6.9.0/mingw_64/mkspecs/features/win32/windows.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/testcase_targets.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/exceptions.prf \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/yacc.prf \
@@ -310,7 +310,6 @@ Makefile: ../../BankingSystem.pro E:/Qt/6.9.0/mingw_64/mkspecs/win32-g++/qmake.c
 		E:/Qt/6.9.0/mingw_64/lib/Qt6Widgets.prl \
 		E:/Qt/6.9.0/mingw_64/lib/Qt6Gui.prl \
 		E:/Qt/6.9.0/mingw_64/lib/Qt6Core.prl \
-		E:/Qt/6.9.0/mingw_64/lib/Qt6EntryPoint.prl \
 		E:/Qt/6.9.0/mingw_64/mkspecs/features/build_pass.prf \
 		../../resources.qrc
 	$(QMAKE) -o Makefile ..\..\BankingSystem.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
@@ -533,6 +532,7 @@ E:/Qt/6.9.0/mingw_64/mkspecs/features/win32/default_pre.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/resolve_config.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/exclusive_builds_post.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/default_post.prf:
+E:/Qt/6.9.0/mingw_64/mkspecs/features/win32/console.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/qml_debug.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/precompile_header.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/warn_on.prf:
@@ -545,7 +545,6 @@ E:/Qt/6.9.0/mingw_64/mkspecs/features/win32/opengl.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/uic.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/qmake_use.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/file_copies.prf:
-E:/Qt/6.9.0/mingw_64/mkspecs/features/win32/windows.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/testcase_targets.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/exceptions.prf:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/yacc.prf:
@@ -554,7 +553,6 @@ E:/Qt/6.9.0/mingw_64/mkspecs/features/lex.prf:
 E:/Qt/6.9.0/mingw_64/lib/Qt6Widgets.prl:
 E:/Qt/6.9.0/mingw_64/lib/Qt6Gui.prl:
 E:/Qt/6.9.0/mingw_64/lib/Qt6Core.prl:
-E:/Qt/6.9.0/mingw_64/lib/Qt6EntryPoint.prl:
 E:/Qt/6.9.0/mingw_64/mkspecs/features/build_pass.prf:
 ../../resources.qrc:
 qmake: FORCE
