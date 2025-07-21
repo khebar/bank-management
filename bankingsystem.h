@@ -24,5 +24,15 @@ public:
     bool changePin(const string& cardNumber, const string& oldPin, 
         const string& newPin, bool isSecondPin);
     string generateDynamicPin(const string& cardNumber);
+
+    // متدهای ایجاد کاربر و حساب
+    bool createCustomer(const string& firstName, const string& lastName, 
+        const string& nationalCode, int age,
+        const string& username, const string& password);
+    bool createAdmin(const string& firstName, const string& lastName, 
+        const string& nationalCode, int age,
+        const string& username, const string& password);
+    bool createAccount(const string& customerUsername, const string& accountType,
+        double initialBalance, double interestRate = 0.0, int term = 0);
 };
 
