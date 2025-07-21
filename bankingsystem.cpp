@@ -125,3 +125,64 @@ string BankingSystem::generateDynamicPin(const string& cardNumber) {
     
     return account->generateDynamicPin();
 }
+
+// متدهای ایجاد کاربر و حساب
+bool BankingSystem::createCustomer(const string& firstName, const string& lastName, 
+    const string& nationalCode, int age,
+    const string& username, const string& password) {
+    Admin* admin = dynamic_cast<Admin*>(currentUser);
+    if (admin == nullptr) {
+        return false;
+    }
+    
+    Customer* newCustomer = new Customer(firstName, lastName, nationalCode, age, username, password);
+    return Admin::addCustomer(newCustomer);
+}
+
+bool BankingSystem::createAdmin(const string& firstName, const string& lastName, 
+    const string& nationalCode, int age,
+    const string& username, const string& password) {
+    Admin* admin = dynamic_cast<Admin*>(currentUser);
+    if (admin == nullptr) {
+        return false;
+    }
+    
+    Admin* newAdmin = new Admin(firstName, lastName, nationalCode, age, username, password);
+    return Admin::addAdmin(newAdmin);
+}
+
+bool BankingSystem::createAccount(const string& customerUsername, const string& accountType,
+        double initialBalance, double interestRate, int term) {
+    Admin* admin = dynamic_cast<Admin*>(currentUser);
+    if (admin == nullptr) {
+        return false;
+    }
+    
+    Customer* customer = Admin::findCustomerByUsername(customerUsername);
+    if (customer == nullptr) {
+        return false;
+    }
+    
+    // Generate random card and account numbers
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dist(1000000000, 9999999999);
+    
+    string cardNum = to_string(dist(gen));
+    string accNum = to_string(dist(gen));
+    string iban = "IR" + to_string(dist(gen)) + to_string(dist(gen));
+    
+    Account* newAccount = nullptr;
+    
+    if (accountType == "deposit") {
+        newAccount = new DepositAccount(cardNum, accNum, iban, initialBalance, interestRate, term);
+    } else if (accountType == "current") {
+        newAccount = new CurrentAccount(cardNum, accNum, iban, initialBalance, 100000, interestRate);
+    } else if (accountType == "qarz") {
+        newAccount = new QarzAccount(cardNum, accNum, iban, initialBalance, term * 100000, interestRate, term);
+    } else {
+        return false;
+    }
+    
+    return Admin::addAccount(newAccount, customer);
+}
