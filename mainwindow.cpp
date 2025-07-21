@@ -407,4 +407,79 @@ void MainWindow::on_customerChangeFirstPinButton_clicked()
         QMessageBox::warning(this, "خطا", "رمز فعلی اشتباه است یا عملیات با خطا مواجه شد.");
     }
 }
+void MainWindow::on_customerChangeSecondPinButton_clicked()
+{
+    Customer* customer = dynamic_cast<Customer*>(bankingSystem->getCurrentUser());
+    if (!customer) return;
+    
+    QStringList cardNumbers;
+    const LinkedList<Account*>& accounts = customer->getAccounts();
+    
+    for (int i = 0; i < accounts.getSize(); i++) {
+        Account* account = accounts.get(i);
+        cardNumbers << QString("%1 (%2)")
+                      .arg(QString::fromStdString(account->getCardNumber()))
+                      .arg(QString::fromStdString(account->getAccountType()));
+    }
+    
+    bool ok;
+    QString selectedCard = QInputDialog::getItem(this, "تغییر رمز دوم", 
+                                               "انتخاب کارت:", cardNumbers, 0, false, &ok);
+    if (!ok || selectedCard.isEmpty()) return;
+    
+    QString cardNumber = selectedCard.split(" ").first();
+    
+    QString oldPin = QInputDialog::getText(this, "تغییر رمز دوم", 
+                                         "رمز فعلی:", QLineEdit::Password, "", &ok);
+    if (!ok || oldPin.isEmpty()) return;
+    
+    QString newPin = QInputDialog::getText(this, "تغییر رمز دوم", 
+                                         "رمز جدید (5 رقمی):", QLineEdit::Password, "", &ok);
+    if (!ok || newPin.isEmpty()) return;
+    
+    if (newPin.length() != 5 || !newPin.toInt(&ok) || !ok) {
+        QMessageBox::warning(this, "خطا", "رمز دوم باید 5 رقم باشد.");
+        return;
+    }
+    
+    if (bankingSystem->changePin(cardNumber.toStdString(), oldPin.toStdString(), 
+                               newPin.toStdString(), true)) {
+        QMessageBox::information(this, "موفق", "رمز دوم با موفقیت تغییر یافت.");
+    } else {
+        QMessageBox::warning(this, "خطا", "رمز فعلی اشتباه است یا عملیات با خطا مواجه شد.");
+    }
+}
+
+void MainWindow::on_customerGenerateDynamicPinButton_clicked()
+{
+    Customer* customer = dynamic_cast<Customer*>(bankingSystem->getCurrentUser());
+    if (!customer) return;
+    
+    QStringList cardNumbers;
+    const LinkedList<Account*>& accounts = customer->getAccounts();
+    
+    for (int i = 0; i < accounts.getSize(); i++) {
+        Account* account = accounts.get(i);
+        cardNumbers << QString("%1 (%2)")
+                      .arg(QString::fromStdString(account->getCardNumber()))
+                      .arg(QString::fromStdString(account->getAccountType()));
+    }
+    
+    bool ok;
+    QString selectedCard = QInputDialog::getItem(this, "تولید رمز دوم پویا", 
+                                               "انتخاب کارت:", cardNumbers, 0, false, &ok);
+    if (!ok || selectedCard.isEmpty()) return;
+    
+    QString cardNumber = selectedCard.split(" ").first();
+    
+    std::string dynamicPin = bankingSystem->generateDynamicPin(cardNumber.toStdString());
+    
+    if (!dynamicPin.empty()) {
+        QMessageBox::information(this, "رمز دوم پویا", 
+                              QString("رمز دوم پویا: %1\nاین رمز فقط برای یک تراکنش معتبر است.")
+                                .arg(QString::fromStdString(dynamicPin)));
+    } else {
+        QMessageBox::warning(this, "خطا", "خطا در تولید رمز دوم پویا.");
+    }
+}
 }
