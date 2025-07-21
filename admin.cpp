@@ -64,3 +64,56 @@ Customer* Admin::findCustomerByNationalCode(const string& nationalCode) {
     }
     return nullptr;
 }
+bool Admin::addAccount(Account* account, Customer* owner) {
+    if (owner->getAccountCount() >= 5) {
+        return false; // هر مشتری حداکثر 5 حساب می‌تواند داشته باشد
+    }
+    
+    allAccounts.add(account);
+    owner->addAccount(account);
+    return true;
+}
+
+bool Admin::removeAccount(const string& accountNumber) {
+    Account* account = findAccountByAccountNumber(accountNumber);
+    if (account == nullptr) {
+        return false;
+    }
+    
+    // حذف از لیست کلی حساب‌ها
+    for (int i = 0; i < allAccounts.getSize(); i++) {
+        if (allAccounts.get(i) == account) {
+            allAccounts.remove(i);
+            break;
+        }
+    }
+    
+    // حذف از حساب‌های مشتری
+    for (int i = 0; i < allCustomers.getSize(); i++) {
+        Customer* customer = allCustomers.get(i);
+        if (customer->findAccountByAccountNumber(accountNumber) != nullptr) {
+            customer->removeAccount(accountNumber);
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+Account* Admin::findAccountByAccountNumber(const string& accountNumber) {
+    for (int i = 0; i < allAccounts.getSize(); i++) {
+        if (allAccounts.get(i)->getAccountNumber() == accountNumber) {
+            return allAccounts.get(i);
+        }
+    }
+    return nullptr;
+}
+
+Account* Admin::findAccountByCardNumber(const string& cardNumber) {
+    for (int i = 0; i < allAccounts.getSize(); i++) {
+        if (allAccounts.get(i)->getCardNumber() == cardNumber) {
+            return allAccounts.get(i);
+        }
+    }
+    return nullptr;
+}
