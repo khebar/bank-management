@@ -1,0 +1,13 @@
+release/account.o
+release/admin.o
+release/bankingsystem.o
+release/checkingaccount.o
+release/currentaccount.o
+release/customer.o
+release/depositaccount.o
+release/main.o
+release/mainwindow.o
+release/qarzaccount.o
+release/user.o
+release/qrc_resources.o
+release/moc_mainwindow.o

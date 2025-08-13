@@ -1,0 +1,30 @@
+#ifndef USER_H
+#define USER_H
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class User{
+protected:
+    string firstName;
+    string lastName;
+    string nationalCode;
+    int age;
+    string username;
+    string password;
+public:
+    User(const string& firstName, const string& lastName, const string& nationalCode, int age, const string& username, const string& password);
+    virtual ~User() = default;
+    virtual string getUserType() const = 0;
+    string getFirstName() const;
+    string getLastName() const;
+    string getNationalCode() const;
+    int getAge() const;
+    string getUsername() const;
+    bool verifyPassword(const string& password) const;
+    bool changePassword(const string& oldPass, const string& newPass);
+    
+};
+
+#endif // USER_H
