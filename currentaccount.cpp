@@ -9,7 +9,7 @@ CurrentAccount::CurrentAccount(const string& cardNum, const string& accNum,
       overdraftLimit(overLimit), interestRate(interest) {
 }
 
-double CurrentAccount::getOverdraftLimit() const {
+double CurrentAccount::getOverdraftLimit() const{
     return overdraftLimit;
 }
 
